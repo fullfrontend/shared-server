@@ -4,7 +4,7 @@ create_ftp_mysql() {
 
   FTP_MYSQL_PWD=$(generate_pwd)
 
-  if ! mysql -u root -p${MYSQL_ROOT_PWD} -e "USE ftpd;" >/dev/null; then
+  if [ ! mysql -u root -p${MYSQL_ROOT_PWD} -e "USE ftpd;" >/dev/null ]; then
     info "Database does not exist, creating."
     mysql -u root -p${MYSQL_ROOT_PWD} -e "CREATE DATABASE ftpd;"
     mysql -u root -p${MYSQL_ROOT_PWD} -e "CREATE USER 'vhosts'@'localhost' IDENTIFIED BY '$FTP_MYSQL_PWD';"

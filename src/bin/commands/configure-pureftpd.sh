@@ -5,7 +5,7 @@ configure_pureftpd() {
   echo "yes" >/etc/pure-ftpd/conf/NoAnonymous
 
 
-  create_ftp_mysql
+  #create_ftp_mysql
 
   if [ "$environment" = "prod" ]; then
     echo "2" >/etc/pure-ftpd/conf/TLS
