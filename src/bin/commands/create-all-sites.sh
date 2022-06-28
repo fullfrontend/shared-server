@@ -4,8 +4,8 @@ create_all_sites() {
     fail 'You must pass users to create entries'
   fi
 
-  local users=$1
-  info "Users: ${users[*]}" 2
+  local USERS=$@
+  info "Users: ${USERS[@]}" 2
 
 
   cat <<EOF >Users.md
@@ -15,7 +15,7 @@ EOF
 
   # Config individual sites
   info "Start Configuring individual sites"
-  for i in "${users[@]}"; do
+  for i in ${USERS[@]}; do
     create_individual_site $i
   done
 

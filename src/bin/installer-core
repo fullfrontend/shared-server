@@ -2,12 +2,16 @@
 
 source "$(dirname "$0")/_helpers.sh"
 source "$(dirname "$0")/commands/configure-apache.sh"
+source "$(dirname "$0")/commands/configure-mysql.sh"
 source "$(dirname "$0")/commands/configure-php.sh"
 source "$(dirname "$0")/commands/configure-pureftpd.sh"
 source "$(dirname "$0")/commands/configure-ufw.sh"
 source "$(dirname "$0")/commands/configure-vhost.sh"
 source "$(dirname "$0")/commands/create-all-sites.sh"
 source "$(dirname "$0")/commands/create-default-index.sh"
+source "$(dirname "$0")/commands/create-folder-structure.sh"
+source "$(dirname "$0")/commands/create-ftp-mysql.sh"
+source "$(dirname "$0")/commands/create-ftp-user.sh"
 source "$(dirname "$0")/commands/create-individual-site.sh"
 source "$(dirname "$0")/commands/create-mysql-database.sh"
 source "$(dirname "$0")/commands/install-deps.sh"
@@ -23,14 +27,17 @@ if [ "$EUID" -ne 0 ]; then
   fail "Please run as root"
 fi
 
-USERS=(cedric steven)
-#USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci cedric steven)
+USERS=(rimidddntda)
+#USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci steven cedric)
 
 # Reset variables
 environment=
 verbosity=2
 maxverbosity=5
 nointeraction=false
+
+
+declare MYSQL_ROOT_PWD
 
 # Parse options
 while :; do
@@ -57,7 +64,7 @@ while :; do
     shift
     break
     ;;
-  
+
   -?*)
     warn "Unknown option (ignored): $1"
     ;;
@@ -107,27 +114,25 @@ php)
   configure_php
   ;;
 
-individual)
-  create_individual_site $*
-  ;;
-
-all)
-  create_all_sites ${USERS[*]}
+sites)
+  create_all_sites $@
   ;;
 
 certs)
   install_certs_pureftpd
   ;;
 
-complete)
+complete | full)
   update
   install_deps
+  configure_mysql
   configure_apache
   secure_apache
   install_pma
   configure_pureftpd
   configure_php
-  create_all_sites ${USERS[*]}
+  #create_all_sites $@
+  create_all_sites ${USERS[@]}
   regenerate_pureftpd_db
   install_pureftpd_certs
   configure_ufw
@@ -139,23 +144,5 @@ complete)
   ;;
 
 esac
-
-################
-
-# install_deps
-
-# config_apache
-
-# install_pma
-
-#config_pureftpd
-
-#config_php
-
-#create_individual_sites users
-
-#install_certs_pureftpd
-
-#configure_ufw
 
 success "All done"

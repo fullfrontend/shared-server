@@ -2,6 +2,11 @@ create_individual_site() {
 
   local USER=$1
 
+  if [ -d /var/www/html/$USER/public ]; then
+    fail "User $USER already exists"
+  fi
+
+
   FTP_PWD=$(generate_pwd)
   DB_PWD=$(generate_pwd)
 
@@ -9,19 +14,9 @@ create_individual_site() {
   info "FTP_PWD: $FTP_PWD" 2
   info "DB_PWD: $DB_PWD" 2
 
-  useradd -G ftpgroup,www-data --system $USER
+  create_folder_structure $USER
 
-  (
-    echo ${FTP_PWD}
-    echo ${FTP_PWD}
-  ) | pure-pw useradd $USER -u $USER -g ftpgroup -d /var/www/html/$USER >/dev/null 2>&1
-
-  info "Creating folder & default file"
-  mkdir -p /var/www/html/$USER/public
-  chmod -R 755 /var/www/html/$USER
-  chown -R www-data:www-data /var/www/html/$USER
-
-  create_default_index $USER
+  create_ftp_user $USER $FTP_PWD
 
   configure_vhost $USER
 
