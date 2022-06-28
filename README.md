@@ -1,0 +1,3 @@
+# How to setup a shared LAMP server on Ubuntu 22.04
+
+A fun project and POC made in 2 days...

@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/_helpers.sh"
+source "$(dirname "$0")/commands/configure-apache.sh"
+source "$(dirname "$0")/commands/configure-php.sh"
+source "$(dirname "$0")/commands/configure-pureftpd.sh"
+source "$(dirname "$0")/commands/configure-ufw.sh"
+source "$(dirname "$0")/commands/configure-vhost.sh"
+source "$(dirname "$0")/commands/create-all-sites.sh"
+source "$(dirname "$0")/commands/create-default-index.sh"
+source "$(dirname "$0")/commands/create-individual-site.sh"
+source "$(dirname "$0")/commands/create-mysql-database.sh"
+source "$(dirname "$0")/commands/install-deps.sh"
+source "$(dirname "$0")/commands/install-pma.sh"
+source "$(dirname "$0")/commands/install-pureftpd-certs.sh"
+source "$(dirname "$0")/commands/regenerate-pureftpd-db.sh"
+source "$(dirname "$0")/commands/secure-apache.sh"
+source "$(dirname "$0")/commands/update.sh"
+
+set -Eeo pipefail
+
+if [ "$EUID" -ne 0 ]; then
+  fail "Please run as root"
+fi
+
+USERS=(cedric steven)
+#USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci cedric steven)
+
+# Reset variables
+environment=
+verbosity=2
+maxverbosity=5
+nointeraction=false
+
+# Parse options
+while :; do
+  case $1 in
+  -v)
+    ((verbosity = $verbosity + 1))
+    ;;
+  -vv)
+    ((verbosity = $verbosity + 2))
+    ;;
+  -vvv)
+    ((verbosity = $verbosity + 3))
+    ;;
+  -h | -\? | --help) # Call a "show_help" function to display a synopsis, then exit.
+    show_help
+    exit
+    ;;
+
+  -e | --environment | --env) # Takes an option argument, ensuring it has been specified.
+    set_environment $2
+    shift
+    ;;
+  --) # End of all options.
+    shift
+    break
+    ;;
+  
+  -?*)
+    warn "Unknown option (ignored): $1"
+    ;;
+  *) # Default case: If no more options then break out of the loop.
+    break ;;
+  esac
+  shift
+done
+
+if [ -z "$environment" ]; then
+  set_environment production
+fi
+
+set_verbosity
+
+info "Current working directory: $(pwd)" 2
+info "Creating for: ${USERS[*]}" 2
+
+command=$1
+shift
+case ${command} in
+update | upd)
+  update
+  ;;
+
+deps | dependencies)
+  install_deps
+  ;;
+
+config-apache | apache)
+  configure_apache
+  ;;
+
+secure-apache)
+  secure_apache
+  ;;
+
+pma | phpmyadmin)
+  install_pma
+  ;;
+
+pureftpd)
+  configure_pureftpd
+  ;;
+
+php)
+  configure_php
+  ;;
+
+individual)
+  create_individual_site $*
+  ;;
+
+all)
+  create_all_sites ${USERS[*]}
+  ;;
+
+certs)
+  install_certs_pureftpd
+  ;;
+
+complete)
+  update
+  install_deps
+  configure_apache
+  secure_apache
+  install_pma
+  configure_pureftpd
+  configure_php
+  create_all_sites ${USERS[*]}
+  regenerate_pureftpd_db
+  install_pureftpd_certs
+  configure_ufw
+  ;;
+
+*)
+  warn 'Unknow command %s\n' "$command" >&2
+  show_help
+  ;;
+
+esac
+
+################
+
+# install_deps
+
+# config_apache
+
+# install_pma
+
+#config_pureftpd
+
+#config_php
+
+#create_individual_sites users
+
+#install_certs_pureftpd
+
+#configure_ufw
+
+success "All done"
