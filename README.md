@@ -2,8 +2,23 @@
 
 A fun project and POC made in 2 days... But still in progress...
 
-/!\ Pure-FTPd reading for MySQL FTP users not yet active. 
+/!\ Pure-FTPd users loading from MySQL not yet active. 
 
+## Purpose of the project
+
+At [Charlewood](https://www.charlewood.com/), we are learning how to setup Wordpress, configure it, etc. I've done 
+it dozen of times, so I'm automating the creation of a server where they can upload their work. I also need to learn 
+new things.
+
+Rules:
+* don't use Docker or K8s, be low tech
+* each user have it's own database
+* each user has access by FTP
+* each user is CHROOTed to his own folder
+* each user has access to http(s)://[name].stage.fullfrontend.be
+* SSL certificates should be valid
+
+I also use some deep knowledge of Bash scripting, so please, learn from it.
 
 ## How to develop and test
 
