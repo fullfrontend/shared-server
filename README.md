@@ -2,6 +2,8 @@
 
 A fun project and POC made in 2 days...
 
+/!\ Pure-FTPd reading for MySQL FTP users not yet active. 
+
 
 ## How to develop and test
 

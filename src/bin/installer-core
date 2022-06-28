@@ -27,7 +27,7 @@ if [ "$EUID" -ne 0 ]; then
   fail "Please run as root"
 fi
 
-USERS=(rimidddntda)
+USERS=(cedric)
 #USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci steven cedric)
 
 # Reset variables
@@ -38,6 +38,7 @@ nointeraction=false
 
 
 declare MYSQL_ROOT_PWD
+declare FTP_MYSQL_PWD
 
 # Parse options
 while :; do
