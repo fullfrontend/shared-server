@@ -27,8 +27,8 @@ if [ "$EUID" -ne 0 ]; then
   fail "Please run as root"
 fi
 
-USERS=(cedric)
-#USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci steven cedric)
+#USERS=(cedric)
+USERS=(hamza martin logan stephane matthias rida mint julie laeticia younci steven cedric)
 
 # Reset variables
 environment=

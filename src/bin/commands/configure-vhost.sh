@@ -18,10 +18,12 @@ configure_vhost() {
 EOF
 
   info "Enabling apache site"
-  a2ensite $1 >/dev/null
+  a2ensite $1 >&3
+  systemctl restart apache2 >&5
 
   info "Getting ssl certs"
   if [ "$environment" = "prod" ]; then
     certbot --apache --non-interactive --agree-tos --redirect -m "cedric@fullfrontend.be" -d $1.stage.fullfrontend.be -d www.$1.stage.fullfrontend.be
+    systemctl restart apache2 >&5
   fi
 }

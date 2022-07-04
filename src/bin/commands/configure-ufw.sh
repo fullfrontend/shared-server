@@ -6,6 +6,6 @@ configure_ufw() {
   ufw allow ftps >&3
   if [ "$environment" = "prod" ]; then
     info "Enabling UFW"
-    ufw enable >&3
+    ufw enable
   fi
 }

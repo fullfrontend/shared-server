@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="c79d32d2-b20f-4015-8860-d8862ece25ad" name="Local VM" url="http://fullfrontend.local">
-        <fileTransfer rootFolder="/home/he8us" accessType="SFTP" host="127.0.0.1" port="2522" sshConfigId="1364eb40-d897-4d8a-a305-bbdd76bd2911" sshConfig="he8us@127.0.0.1:2522 agent" authAgent="true">
+      <webServer id="27a7b42d-aefb-45b8-a6aa-b6ef75e63000" name="stage.fullfrontend.be" url="http://stage.fullfrontend.be/">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="stage.fullfrontend.be" port="22" sshConfigId="f1b811ac-fb0c-4b55-b2d0-d733ee4cd737" sshConfig="stage.fullfrontend.be" authAgent="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
