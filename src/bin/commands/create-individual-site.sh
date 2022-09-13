@@ -29,7 +29,6 @@ create_individual_site() {
 
 * FTP:
   * URL: ftp.stage.fullfrontend.be
-  * Port: 21
   * User: $USER
   * Password: $FTP_PWD
 

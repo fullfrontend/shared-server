@@ -4,10 +4,12 @@ configure_pureftpd() {
   echo "yes" >/etc/pure-ftpd/conf/CreateHomeDir
   echo "yes" >/etc/pure-ftpd/conf/NoAnonymous
   echo "33" >/etc/pure-ftpd/conf/MinUID
+  echo "40110 40210" >/etc/pure-ftpd/conf/PassivePortRange
 
   if [ ! -e /etc/pure-ftpd/conf/PureDB ]; then
-    ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
+    rm -rf /etc/pure-ftpd/conf/PureDB
   fi
+  ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/50pure
 
   #create_ftp_mysql
 

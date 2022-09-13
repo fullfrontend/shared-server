@@ -7,8 +7,9 @@ install_pureftpd_certs() {
     if [ -e "/etc/ssl/private/pure-ftpd.pem" ]; then
       rm /etc/ssl/private/pure-ftpd.pem
     fi
-    cat  /etc/letsencrypt/live/ftp.stage.fullfrontend.be/fullchain.pem /etc/letsencrypt/live/ftp.stage.fullfrontend.be/privkey.pem > /etc/ssl/private/pure-ftpd.pem >&5
+    cat  /etc/letsencrypt/live/ftp.stage.fullfrontend.be/fullchain.pem /etc/letsencrypt/live/ftp.stage.fullfrontend.be/privkey.pem > /etc/ssl/private/pure-ftpd.pem
     chmod 600 /etc/ssl/private/pure-ftpd.pem
+
     service pure-ftpd restart
     info "Cert installed"
   fi
